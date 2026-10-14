@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه اختصاصی یاشار | Yashar Instagram</title>
+    <title>پایگاه جامع جنگ خاورمیانه و یاشار | Middle East & Yashar</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -17,31 +17,33 @@
         body { background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; padding: 20px 10px; min-height: 100vh; }
         .container { width: 100%; max-width: 900px; }
         .downloader-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px 20px; margin-bottom: 35px; text-align: center; }
-        .downloader-card h2 { font-size: 1.2rem; margin-bottom: 8px; }
+        .downloader-card h2 { font-size: 1.2rem; margin-bottom: 8px; color: #fff; }
         .downloader-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 18px; }
         .input-group { display: flex; gap: 10px; max-width: 650px; margin: 0 auto; }
         .input-group input { flex: 1; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: #000; color: #fff; direction: ltr; }
         .input-group button { padding: 12px 24px; border-radius: 10px; border: none; background: var(--accent-color); color: white; font-weight: bold; cursor: pointer; }
-        #preview-area { margin-top: 20px; display: flex; justify-content: center; }
-        #preview-area iframe { border-radius: 12px; border: 1px solid var(--border-color); max-width: 100%; }
+        #preview-area { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .embed-box { background: #000; border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; }
         .section-title { font-size: 1.3rem; text-align: center; margin-bottom: 20px; color: #fff; }
-        .feed-container { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 15px; }
+        .feed-container { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 15px; margin-bottom: 40px; }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- بخش نمایش دستی ویدیوها و پست‌های مربوط به جنگ خاورمیانه یا سایر کانال‌ها -->
         <div class="downloader-card">
-            <h2>نمایش ویدیو و پست از لینک اینستاگرام</h2>
-            <p>لینک پست یا ریلز مورد نظر را در کادر زیر وارد کنید</p>
+            <h2>نمایش دستی پست، ریلز یا هایلایت (جنگ خاورمیانه و سایرین)</h2>
+            <p>لینک هر پست، ریلز یا ویدیویی از اینستاگرام را وارد کنید تا به سایت اضافه شود</p>
             <div class="input-group">
                 <input type="text" id="insta-link" placeholder="https://www.instagram.com/p/... یا /reel/...">
-                <button onclick="displayMedia()">نمایش ویدیو</button>
+                <button onclick="displayMedia()">افزودن به سایت</button>
             </div>
             <div id="preview-area"></div>
         </div>
 
-        <h2 class="section-title">محتوا و پست‌های پیج یاشار</h2>
+        <h2 class="section-title">پست‌ها، ریلزها و هایلایت‌های پیج یاشار</h2>
 
+        <!-- بخش فید خودکار اینستاگرام (یاشار) -->
         <div class="feed-container">
             <script src="https://elfsightcdn.com/platform.js" async></script>
             <div class="elfsight-app-582989a3-bd09-434e-8a13-7d10ee950258" data-elfsight-app-lazy></div>
@@ -52,14 +54,17 @@
         function displayMedia() {
             const input = document.getElementById('insta-link').value.trim();
             const preview = document.getElementById('preview-area');
-            if (!input) { alert('لطفاً لینک پست یا ریلز اینستاگرام را وارد کنید.'); return; }
-            preview.innerHTML = '<p style="color: var(--text-secondary);">در حال دریافت...</p>';
+            if (!input) { alert('لطفاً لینک اینستاگرام را وارد کنید.'); return; }
+            
             let cleanUrl = input.split('?')[0];
             if (!cleanUrl.endsWith('/')) cleanUrl += '/';
             cleanUrl += 'embed';
-            setTimeout(() => {
-                preview.innerHTML = `<iframe src="${cleanUrl}" width="400" height="480" frameborder="0" scrolling="no" allowtransparency="true"></iframe>`;
-            }, 500);
+
+            const box = document.createElement('div');
+            box.className = 'embed-box';
+            box.innerHTML = `<iframe src="${cleanUrl}" width="320" height="420" frameborder="0" scrolling="no" allowtransparency="true"></iframe>`;
+            preview.appendChild(box);
+            document.getElementById('insta-link').value = '';
         }
     </script>
 </body>
